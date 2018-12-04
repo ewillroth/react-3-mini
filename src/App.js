@@ -29,37 +29,60 @@ class App extends Component {
   }
 
   getVehicles() {
-    // axios (GET)
-    // setState with response -> vehiclesToDisplay
+    axios.get("https://joes-autos.herokuapp.com/api/Vehicles").then(response => {
+        this.setState({ vehiclesToDisplay: response.data });
+        toast.success("Success");
+      }, error => {
+        toast.error("Error");
+      });
   }
 
   getPotentialBuyers() {
-    // axios (GET)
-    // setState with response -> buyersToDisplay
+    axios.get("https://joes-autos.herokuapp.com/api/buyers").then(response=> {
+      this.setState({ buyersToDisplay: response.data});
+      toast.success("Success")
+    }, error =>{
+      toast.error("Error")
+    })
   }
 
   sellCar(id) {
-    // axios (DELETE)
-    // setState with response -> vehiclesToDisplay
+    axios.delete("https://joes-autos.herokuapp.com/api/vehicles/"+ id).then(response=>{
+      this.setState({vehiclesToDisplay: response.data.vehicles})
+      toast.success("Sold")
+    }, error=> {
+      toast.error('Error')
+    })
   }
 
   filterByMake() {
     let make = this.selectedMake.value;
-
-    // axios (GET)
-    // setState with response -> vehiclesToDisplay
+    axios.get("https://joes-autos.herokuapp.com/api/Vehicles?make=" + make).then(response => {
+      this.setState({ vehiclesToDisplay: response.data });
+      console.log(response);
+      toast.success("Success");
+    }, error => {
+      toast.error("Error");
+    });
   }
 
   filterByColor() {
     let color = this.selectedColor.value;
-
-    // axios (GET)
-    // setState with response -> vehiclesToDisplay
+    axios.get("https://joes-autos.herokuapp.com/api/Vehicles?color=" + color).then(response => {
+      this.setState({ vehiclesToDisplay: response.data });
+      toast.success("Success");
+    }, error => {
+      toast.error("Error");
+    });
   }
 
   updatePrice(priceChange, id) {
-    // axios (PUT)
-    // setState with response -> vehiclesToDisplay
+    axios.put("https://joes-autos.herokuapp.com/api/vehicles/" + id + "/" + priceChange).then(response=>{
+      this.setState({vehiclesToDisplay: response.data.vehicles})
+      toast.success("Success")
+    },error=>{
+      toast.error('Error')
+    })
   }
 
   addCar() {
@@ -71,8 +94,15 @@ class App extends Component {
       price: this.price.value
     };
 
-    // axios (POST)
-    // setState with response -> vehiclesToDisplay
+    axios.post("https://joes-autos.herokuapp.com/api/vehicles/", newCar).then(response=>{
+      this.setState({
+        vehiclesToDisplay: response.data.vehicles
+      })
+      toast.success("Success")
+    }, error => {
+      toast.error("Error")
+    })
+
   }
 
   addBuyer() {
@@ -82,27 +112,43 @@ class App extends Component {
       address: this.address.value
     };
 
-    //axios (POST)
-    // setState with response -> buyersToDisplay
+    axios.post("https://joes-autos.herokuapp.com/api/buyers/", newBuyer).then(response => {
+      this.setState({
+        buyersToDisplay: response.data.buyers
+      })
+      toast.success("Success")
+    }, error => {
+      toast.error("Error")
+    })
+
   }
 
   deleteBuyer(id) {
-    // axios (DELETE)
-    //setState with response -> buyersToDisplay
+    axios.delete("https://joes-autos.herokuapp.com/api/buyers/" + id).then(response => {
+      this.setState({ buyersToDisplay: response.data.buyers })
+      toast.success("Success")
+    }, error => {
+      toast.error('Error')
+    })
   }
 
   nameSearch() {
     let searchLetters = this.searchLetters.value;
-
-    // axios (GET)
-    // setState with response -> buyersToDisplay
+    axios.get("https://joes-autos.herokuapp.com/api/Buyers?name=" + searchLetters).then(response => {
+      this.setState({ buyersToDisplay: response.data });
+    }, error => {
+      toast.error("Error");
+    });
   }
 
   byYear() {
     let year = this.searchYear.value;
-
-    // axios (GET)
-    // setState with response -> vehiclesToDisplay
+    axios.get("https://joes-autos.herokuapp.com/api/Vehicles?year=" + year).then(response => {
+      this.setState({ vehiclesToDisplay: response.data });
+      toast.success("Success");
+    }, error => {
+      toast.error("Error");
+    });
   }
 
   // Do not edit the code below
